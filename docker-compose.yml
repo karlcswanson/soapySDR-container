@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  spectrum-capture:
+    image: soapy_sdr
+    hostname: spec
+    privileged: true
+    container_name: spectrum-capture
+    restart: unless-stopped
+    env_file:
+      - .env
+    entrypoint: ["/soapy_power/spectrum-capture"]
