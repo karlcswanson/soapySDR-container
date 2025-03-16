@@ -9,4 +9,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    volumes:
+      - .env:/soapy_power/.env
+      - ./spectrum-capture:/soapy_power/spectrum-capture
     entrypoint: ["/soapy_power/spectrum-capture"]

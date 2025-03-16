@@ -9,7 +9,9 @@ RUN apt-get install -y \
     python3-dev \
     python3-pip \
     rtl-sdr \
-    librtlsdr-dev
+    librtlsdr-dev \
+    libiio-dev \
+    libad9361-dev
 
 
 RUN git clone https://github.com/pothosware/SoapySDR.git /SoapySDR
@@ -25,6 +27,12 @@ WORKDIR /SoapyRTLSDR/build
 RUN make && make install
 
 
+RUN git clone https://github.com/pothosware/SoapyPlutoSDR /SoapyPlutoSDR
+WORKDIR /SoapyPlutoSDR
+RUN mkdir -p build && cd build && cmake ..
+WORKDIR /SoapyPlutoSDR/build
+RUN make && make install
+
 RUN git clone https://github.com/xmikos/simplesoapy.git /simplesoapy
 WORKDIR /simplesoapy
 RUN pip install .
@@ -34,11 +42,11 @@ RUN git clone https://github.com/xmikos/soapy_power.git /soapy_power
 
 # Change working directory
 WORKDIR /soapy_power
-COPY spectrum-capture .
-COPY .env .
+# COPY spectrum-capture .
+# COPY .env .
 # Install soapy_power
 RUN pip install .
-
+RUN pip install scipy
 
 RUN ldconfig
 # Set the entrypoint
